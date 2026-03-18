@@ -4,7 +4,7 @@ public class BaseInimigo : MonoBehaviour
 {
     [Header("Variáveis Comuns para Herdar")]
     [SerializeField] protected int velocidade = 5;
-    [SerializeField] protected int pontuacao = 20;
+    [SerializeField] protected int pontos = 20;
     [SerializeField] private int tempoVida = 5;
     [SerializeField] protected bool irDireita;
     [SerializeField] protected SpriteRenderer spriteRenderer;
@@ -12,6 +12,7 @@ public class BaseInimigo : MonoBehaviour
     protected virtual void Start()
     {
         Destroy(gameObject, tempoVida);
+        Seguranças();
     }
 
     protected virtual void Update()
@@ -19,6 +20,7 @@ public class BaseInimigo : MonoBehaviour
         Mover();
     }
 
+    #region MOVIMENTO_INIMIGO
     protected virtual void Mover()
     {
         if (irDireita)
@@ -30,27 +32,42 @@ public class BaseInimigo : MonoBehaviour
             transform.Translate(Vector2.left * velocidade * Time.deltaTime);
         }
     }
-
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
+        public void IrDireita()
     {
-        if (collision.gameObject.CompareTag("Player"))
+        irDireita = true;
+        spriteRenderer.flipX = true; //se o sprite original estiver virado para a direita
+    }
+    #endregion
+
+    #region COLISÕES_INIMIGO
+    protected virtual void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Player"))
         {
             //Matar o jogador
+            Acoes.JogadorMorto?.Invoke(pontos);                 //'?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
+            Destroy(gameObject);                                //destroi o inimigo quando colidir com o jogador
+            //Destroy(col.gameObject);                          //destroi o jogador
             Debug.LogWarning("COLIDIU COM PLAYER");
-            Destroy(gameObject);
             //Somar pontuação na UI
         }
-        else if (collision.gameObject.CompareTag("TiroJogador"))
+        else if (col.gameObject.CompareTag("TiroJogador"))
         {
+            Acoes.InimigoMorto?.Invoke(pontos);                 //'?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);
+            Destroy(col.gameObject);                            //destroi tiroJogador
             Debug.LogWarning("ATINGIDO PELO TIRO.");
             //Somar pontuação na UI
         }
     }
 
-    public void IrDireita()
+    #endregion
+
+    protected void Seguranças()
     {
-        irDireita = true;
-        spriteRenderer.flipX = true; //se o sprite original estiver virado para a direita
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
     }
 }

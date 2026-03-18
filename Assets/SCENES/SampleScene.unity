@@ -197,13 +197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd9f54b7a8f5c54e92575cf49e8eba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FabricaInimigos
-  direcaoSpawn: 1
+  direcaoSpawn: 0
   peixePreFab: {fileID: 846461082143216604, guid: 6e0d004ff2ffb994683cb538d9191daf, type: 3}
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 474326433}
   canSpawn: 1
-  spawnTick: 3
+  spawnTick: 7
   probabilidadePeixe: 5
   probabilidadeSubmarino: 2
   probabilidadeHumano: 3
@@ -394,7 +394,7 @@ MonoBehaviour:
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 593260333}
   canSpawn: 1
-  spawnTick: 3
+  spawnTick: 4
   probabilidadePeixe: 5
   probabilidadeSubmarino: 2
   probabilidadeHumano: 3
@@ -613,13 +613,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd9f54b7a8f5c54e92575cf49e8eba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FabricaInimigos
-  direcaoSpawn: 1
+  direcaoSpawn: 0
   peixePreFab: {fileID: 846461082143216604, guid: 6e0d004ff2ffb994683cb538d9191daf, type: 3}
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 1089134724}
   canSpawn: 1
-  spawnTick: 3
+  spawnTick: 4
   probabilidadePeixe: 5
   probabilidadeSubmarino: 2
   probabilidadeHumano: 3
@@ -711,6 +711,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1304668922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1388125868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1388125870}
+  - component: {fileID: 1388125869}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1388125869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388125868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4bb7d2fcd33544fb9d813870c85a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!4 &1388125870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388125868}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1693536286
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd9f54b7a8f5c54e92575cf49e8eba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FabricaInimigos
-  direcaoSpawn: 1
+  direcaoSpawn: 0
   peixePreFab: {fileID: 846461082143216604, guid: 6e0d004ff2ffb994683cb538d9191daf, type: 3}
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
@@ -773,6 +817,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6504724101054046064, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -817,10 +865,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4660284990565689447, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -834,3 +878,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 8008938851100099594}
   - {fileID: 1069271804}
+  - {fileID: 1388125870}

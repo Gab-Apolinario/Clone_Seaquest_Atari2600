@@ -54,17 +54,17 @@ public class FabricaInimigos : MonoBehaviour
         if(resultadoSorteio < probabilidadePeixe)
         {
             SpawnConfigurar(peixePreFab);
-            Debug.Log("Spawn Peixe");
+            //Debug.Log("Spawn Peixe");
         }
         else if(resultadoSorteio < probabilidadePeixe + probabilidadeSubmarino)
         {
             SpawnConfigurar(submarinoPreFab);
-            Debug.Log("Spawn Submarino");
+            //Debug.Log("Spawn Submarino");
         }
         else
         {
             SpawnConfigurar(humanoPreFab);
-            Debug.Log("Spawn Humano");
+            //Debug.Log("Spawn Humano");
         }
     }
 
