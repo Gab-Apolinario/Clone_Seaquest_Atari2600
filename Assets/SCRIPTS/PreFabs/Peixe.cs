@@ -6,6 +6,7 @@ public class Peixe : BaseInimigo
     {
         base.Start(); // Chama o Start da classe base (BaseInimigo) para 
                       // garantir que a lógica de movimento e destruição funcione corretamente.
+        pontos = 20; // Define os pontos específicos para o Peixe
     }
 
 }

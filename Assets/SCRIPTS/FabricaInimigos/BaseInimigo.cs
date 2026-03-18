@@ -3,9 +3,9 @@ using UnityEngine;
 public class BaseInimigo : MonoBehaviour
 {
     [Header("Variáveis Comuns para Herdar")]
-    [SerializeField] protected int velocidade = 5;
-    [SerializeField] protected int pontos = 20;
-    [SerializeField] private int tempoVida = 5;
+    [SerializeField] protected float velocidade;
+    [SerializeField] protected int pontos;
+    [SerializeField] private int tempoVida;
     [SerializeField] protected bool irDireita;
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
@@ -45,7 +45,7 @@ public class BaseInimigo : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             //Matar o jogador
-            Acoes.JogadorMorto?.Invoke(pontos);                 //'?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
+            Acoes.JogadorMorto?.Invoke(pontos);                 // TRANSMITIR - '?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);                                //destroi o inimigo quando colidir com o jogador
             //Destroy(col.gameObject);                          //destroi o jogador
             Debug.LogWarning("COLIDIU COM PLAYER");

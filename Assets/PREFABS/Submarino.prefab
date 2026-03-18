@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3935495547952484785}
   - component: {fileID: 7816849911931386720}
   - component: {fileID: 933044088731190737}
-  - component: {fileID: 606352564679959975}
+  - component: {fileID: 2020628023058067537}
   m_Layer: 0
   m_Name: Submarino
   m_TagString: Submarino
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 706064029219235772}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.29983, y: -0.59494, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.54, y: 0.39}
   m_EdgeRadius: 0
---- !u!114 &606352564679959975
+--- !u!114 &2020628023058067537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,12 +148,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 706064029219235772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441cca3e526117c44ac9d7c776027c86, type: 3}
+  m_Script: {fileID: 11500000, guid: b9f8af25bdea3244d8edc30f0656b412, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Peixe
-  velocidade: 2
-  pontuacao: 20
-  tempoVida: 6
-  irDireita: 0
-  spriteRenderer: {fileID: 7816849911931386720}
-  rb: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Submarino

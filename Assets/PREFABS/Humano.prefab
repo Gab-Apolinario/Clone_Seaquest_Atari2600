@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8588607506398105175}
   - component: {fileID: 6496248563378904386}
   - component: {fileID: 3025991963300624054}
-  - component: {fileID: 7026252413944016743}
+  - component: {fileID: 2126224364936684257}
   m_Layer: 0
   m_Name: Humano
   m_TagString: Humano
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3195056568175997771}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.29983, y: -0.59494, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.44}
   m_EdgeRadius: 0
---- !u!114 &7026252413944016743
+--- !u!114 &2126224364936684257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,12 +148,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3195056568175997771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441cca3e526117c44ac9d7c776027c86, type: 3}
+  m_Script: {fileID: 11500000, guid: b7085d0b04feca9418b7bdd8251343e0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Peixe
-  velocidade: 2
-  pontuacao: 20
-  tempoVida: 7
+  m_EditorClassIdentifier: Assembly-CSharp::Humano
+  velocidade: 2.5
+  pontos: 50
+  tempoVida: 6
   irDireita: 0
   spriteRenderer: {fileID: 6496248563378904386}
-  rb: {fileID: 0}
