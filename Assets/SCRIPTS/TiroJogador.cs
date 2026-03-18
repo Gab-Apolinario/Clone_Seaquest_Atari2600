@@ -6,7 +6,7 @@ public class TiroJogador : MonoBehaviour
     [SerializeField] private float tempoVidaTiro;
     [SerializeField] private bool irParaEsquerda;
     
-    private void Start()
+     void Start()
     {
         Destroy(gameObject, tempoVidaTiro);
     }
