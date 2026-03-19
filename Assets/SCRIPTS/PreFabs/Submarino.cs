@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class Submarino : MonoBehaviour
+public class Submarino : BaseInimigo
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Start(); // Chama o Start da classe base (BaseInimigo) para 
+                      // garantir que a lógica de movimento e destruição funcione corretamente.
+        pontos = 20; // Define os pontos específicos para o Peixe
     }
 }

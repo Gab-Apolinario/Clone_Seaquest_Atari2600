@@ -152,8 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Peixe
   velocidade: 3
-  pontuacao: 20
+  pontos: 20
   tempoVida: 6
   irDireita: 0
   spriteRenderer: {fileID: 4132616675813092412}
-  rb: {fileID: 0}

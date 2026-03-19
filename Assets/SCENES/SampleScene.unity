@@ -281,10 +281,10 @@ MonoBehaviour:
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 474326433}
   canSpawn: 1
-  spawnTick: 6
+  spawnTick: 2
   probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  probabilidadeSubmarino: 10
+  probabilidadeHumano: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,10 +472,10 @@ MonoBehaviour:
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 593260333}
   canSpawn: 1
-  spawnTick: 7
-  probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  spawnTick: 6
+  probabilidadePeixe: 3
+  probabilidadeSubmarino: 2
+  probabilidadeHumano: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,10 +610,10 @@ MonoBehaviour:
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 883257284}
   canSpawn: 1
-  spawnTick: 5
-  probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  spawnTick: 6
+  probabilidadePeixe: 3
+  probabilidadeSubmarino: 2
+  probabilidadeHumano: 5
 --- !u!1 &1069271803
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,9 +698,9 @@ MonoBehaviour:
   spawnPoint: {fileID: 1089134724}
   canSpawn: 1
   spawnTick: 8
-  probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  probabilidadePeixe: 3
+  probabilidadeSubmarino: 2
+  probabilidadeHumano: 5
 --- !u!1 &1304668921
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,9 +771,9 @@ MonoBehaviour:
   spawnPoint: {fileID: 1305178499}
   canSpawn: 1
   spawnTick: 6
-  probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  probabilidadePeixe: 3
+  probabilidadeSubmarino: 2
+  probabilidadeHumano: 5
 --- !u!4 &1305178499
 Transform:
   m_ObjectHideFlags: 0
@@ -911,14 +911,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   estadoJogo: 0
   superficie: 0
-  pontuacaoTotal: 0
-  vidasJogador: 3
+  jogadorTransform: {fileID: 1560154202}
+  vidasJogador: 4
   humanosColetados: 0
-  jogadorCheio: 0
+  pontuacaoTotal: 0
   pontosPeixe: 0
   pontosSubmarino: 0
   pontosHumano: 0
-  multiplicadorPontosHumanos: 0
   rodadasComSucesso: 1
 --- !u!4 &1388125870
 Transform:
@@ -935,6 +934,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1560154202 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
+  m_PrefabInstance: {fileID: 8008938851100099594}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1693536286
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,9 +990,9 @@ MonoBehaviour:
   spawnPoint: {fileID: 1693536287}
   canSpawn: 1
   spawnTick: 5
-  probabilidadePeixe: 0
-  probabilidadeSubmarino: 0
-  probabilidadeHumano: 10
+  probabilidadePeixe: 3
+  probabilidadeSubmarino: 2
+  probabilidadeHumano: 5
 --- !u!1001 &8008938851100099594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1001,13 +1005,17 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1464178662451564481, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
+      propertyPath: m_UseFullKinematicContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.18
       objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1045,6 +1053,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5482084353735575336, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

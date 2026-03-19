@@ -109,6 +109,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reiniciar"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc4bf9fa-c049-47f3-8dec-42d7d4d96969"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -221,6 +230,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Mover"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea313ec7-df8f-41c1-b84e-65b4d10ff54e"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Reiniciar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -292,6 +312,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Mover = m_Player.FindAction("Mover", throwIfNotFound: true);
         m_Player_Atirar = m_Player.FindAction("Atirar", throwIfNotFound: true);
+        m_Player_Reiniciar = m_Player.FindAction("Reiniciar", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -374,6 +395,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Mover;
     private readonly InputAction m_Player_Atirar;
+    private readonly InputAction m_Player_Reiniciar;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -393,6 +415,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Atirar".
         /// </summary>
         public InputAction @Atirar => m_Wrapper.m_Player_Atirar;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Reiniciar".
+        /// </summary>
+        public InputAction @Reiniciar => m_Wrapper.m_Player_Reiniciar;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -425,6 +451,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Atirar.started += instance.OnAtirar;
             @Atirar.performed += instance.OnAtirar;
             @Atirar.canceled += instance.OnAtirar;
+            @Reiniciar.started += instance.OnReiniciar;
+            @Reiniciar.performed += instance.OnReiniciar;
+            @Reiniciar.canceled += instance.OnReiniciar;
         }
 
         /// <summary>
@@ -442,6 +471,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Atirar.started -= instance.OnAtirar;
             @Atirar.performed -= instance.OnAtirar;
             @Atirar.canceled -= instance.OnAtirar;
+            @Reiniciar.started -= instance.OnReiniciar;
+            @Reiniciar.performed -= instance.OnReiniciar;
+            @Reiniciar.canceled -= instance.OnReiniciar;
         }
 
         /// <summary>
@@ -561,5 +593,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAtirar(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reiniciar" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReiniciar(InputAction.CallbackContext context);
     }
 }

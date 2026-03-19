@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 706064029219235772}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2061745, y: -1.2256906, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6216210951170567345, guid: 791be5f9d2cf7434ab85994a2ea89e45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -151,3 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f8af25bdea3244d8edc30f0656b412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Submarino
+  velocidade: 2.5
+  pontos: 20
+  tempoVida: 8
+  irDireita: 0
+  spriteRenderer: {fileID: 7816849911931386720}

@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -97,13 +96,4 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
-    public void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Superficie"))
-        {
-            Acoes.Superficie?.Invoke(); //'Grita' que chegou na superfície
-        }
-    }
-
 }
