@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool jogadorPodeMover;
 
     [Header("Oxegênio")]
-    [SerializeField] private int oxigenioSubmarino;
+    [SerializeField] private float oxigenioSubmarino;
     [SerializeField] private const int OXIGENIO_MAXIMO = 100;
 
     [Header("Gerenciamento de Pontuação")]
@@ -78,15 +78,15 @@ public class GameManager : MonoBehaviour
     {
         OnReiniciar();
 
-        if(jogadorTransform.position.y < 2.6f && estadoJogo == EstadoJogo.Superficie)
+        if(jogadorTransform.position.y < 2.8f && estadoJogo == EstadoJogo.Superficie)
         {
             MudarEstadoJogo(EstadoJogo.Submerso);
         }
-        else if (jogadorTransform.position.y >= 2.6f && estadoJogo == EstadoJogo.Submerso)
+        else if (jogadorTransform.position.y >= 2.8f && estadoJogo == EstadoJogo.Submerso)
         {
             MudarEstadoJogo(EstadoJogo.Superficie);
         }
-
+        OxigenioSubmarino();
         GanharVidaExtra();
     }
 
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         }
 
         vidasJogador--;
-        Debug.LogWarning($"Jogador Morreu! Pontuação Total: {pontuacaoTotal} / Vidas: {vidasJogador}");
+        Debug.Log($"Jogador Morreu! Pontuação Total: {pontuacaoTotal} / Vidas: {vidasJogador}");
 
         if (vidasJogador <= 0)
         {
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.LogWarning($"Inimigo Morto: {pontos} / Pontuação Total: {pontuacaoTotal}");
+        Debug.Log($"Inimigo Morto: {pontos} / Pontuação Total: {pontuacaoTotal}");
     }
 
     void ColetouHumano(int pontos)
@@ -178,25 +178,24 @@ public class GameManager : MonoBehaviour
     {
         jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
 
-        if (oxigenioSubmarino != OXIGENIO_MAXIMO)           //Oxigênio não está cheio
+        if (oxigenioSubmarino < OXIGENIO_MAXIMO)           //Oxigênio não está cheio
         {
             //Iniciar preenchemento do oxigênio
             jogadorPodeMover = false;                       //impede o jogador de se mover enquanto o oxigênio estiver sendo preenchido
+            Acoes.MoverJogador?.Invoke(jogadorPodeMover);
         }
         else
         {
             jogadorPodeMover = true;                        //permite o jogador se mover normalmente
-        }
-
-        if (jogadorPodeMover && oxigenioSubmarino == OXIGENIO_MAXIMO && jogadorTransform.position.y < 2.6f) //Saiu da superfície
-        {
-            estadoJogo = EstadoJogo.Submerso;
+            Acoes.MoverJogador?.Invoke(jogadorPodeMover);
         }
     }
 
     void GameOver()
     {
         Debug.LogError("Game Over! O jogador perdeu todas as vidas.");
+        Time.timeScale = 0;
+        oxigenioSubmarino = 0;
     }
 
     void MudarEstadoJogo(EstadoJogo novoEstado)
@@ -236,7 +235,7 @@ public class GameManager : MonoBehaviour
             //ESTADO_GAME_OVER
             case EstadoJogo.GameOver:
 
-                GameOver(); //Chama o método de Game Over para lidar com a lógica de fim de jogo OU escrever todo o código de Game Over aqui mesmo (???)
+                GameOver();
                 break;
         }
     }
@@ -267,7 +266,7 @@ public class GameManager : MonoBehaviour
                 else if (humanosColetados == 0) //REGRA: Se o jogador subir a superfície sem coletar nenhum humano, perde 1 vida
                 {
                     vidasJogador--;
-                    Debug.LogWarning($"O jogador subiu a superfície sem coletar humanos! Vidas restantes: {vidasJogador}");
+                    Debug.Log($"O jogador subiu a superfície sem coletar humanos! Vidas restantes: {vidasJogador}");
                     //UI Update aqui
 
                     if (vidasJogador <= 0)
@@ -283,13 +282,44 @@ public class GameManager : MonoBehaviour
                 }
     }
 
+    void OxigenioSubmarino()
+    {
+        //Lógica para preencher o oxigênio do submarino quando o jogador estiver na superfície
+        //Pode ser um aumento gradual do oxigênio ao longo do tempo ou um preenchimento instantâneo
+        //Quando o oxigênio atingir o máximo, permitir que o jogador se mova normalmente
+        if (estadoJogo == EstadoJogo.Superficie && oxigenioSubmarino < OXIGENIO_MAXIMO)
+        {
+            //Exemplo de preenchimento gradual
+            oxigenioSubmarino += 10f * Time.deltaTime; //Aumenta o oxigênio
+
+            if (oxigenioSubmarino >= OXIGENIO_MAXIMO)
+            {
+                oxigenioSubmarino = OXIGENIO_MAXIMO;
+                jogadorPodeMover = true; //Permite o jogador se mover normalmente
+                Acoes.MoverJogador?.Invoke(jogadorPodeMover); //'grita' que o jogador pode se mover
+                Debug.Log("Oxigênio cheio! O jogador pode se mover normalmente.");
+            }
+        }
+        else if(estadoJogo == EstadoJogo.Submerso)
+        {
+            oxigenioSubmarino -= 3f * Time.deltaTime; //Diminui oxigênio
+
+            if (oxigenioSubmarino <= 0)
+            {
+                oxigenioSubmarino = 0;
+                JogadorMorto(0); //O jogador morre por falta de oxigênio, mas não perde pontos
+                Debug.Log("Falta de oxigênio! O jogador morreu.");
+            }
+        }
+    }
+
     void GanharVidaExtra()
     {
         if (pontuacaoTotal >= pontuacaoVidaExtra)
         {
             vidasJogador++;
             pontuacaoVidaExtra += PONTOS_VIDA_EXTRA;
-            Debug.Log($"VIDA EXTRA. Vidas Atuais: {vidasJogador}");
+            Debug.LogWarning($"VIDA EXTRA. Vidas Atuais: {vidasJogador}");
         }
     }
     public void OnReiniciar()

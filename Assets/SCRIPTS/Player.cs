@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,11 @@ public class Player : MonoBehaviour
     [Header("Configurações do Jogador")]
     [SerializeField] private float velocidadeJogador;
     [SerializeField] private SpriteRenderer spriteJogador;
+    [SerializeField] private float limiteTelaEsquerda;
+    [SerializeField] private float limiteTelaDireita;
+    [SerializeField] private float limiteTelaCima;
+    [SerializeField] private float limiteTelaBaixo;
+    [SerializeField] private bool podeMover = true;
 
       [Header("Atirar")]
     [SerializeField] private Transform spawnPoint;
@@ -28,11 +34,13 @@ public class Player : MonoBehaviour
     void OnEnable()
     {
         inputActions.Enable();
+        Acoes.MoverJogador += PodeMover;
     }
 
     void OnDisable()
     {
         inputActions.Disable();
+        Acoes.MoverJogador -= PodeMover;
     }
 
     private void Update()
@@ -43,7 +51,10 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        OnMover();
+        if (podeMover)
+        {
+            OnMover();
+        }
     }
 
     #region CONTROLE_JOGADOR
@@ -53,6 +64,9 @@ public class Player : MonoBehaviour
         Vector2 direction = inputActions.Player.Mover.ReadValue<Vector2>();
 
         //Move usando a direção lida anteriormente
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, limiteTelaEsquerda, limiteTelaDireita), 
+                                  Mathf.Clamp(rb.position.y, limiteTelaBaixo, limiteTelaCima));
+
         rb.MovePosition(rb.position + direction * velocidadeJogador * Time.fixedDeltaTime);
 
         // Flipar Sprite
@@ -93,6 +107,11 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(delayTiro); // Tempo de recarga entre os tiros
         podeAtirar = true;
+    }
+
+    void PodeMover(bool valor)
+    {
+        podeMover = valor;
     }
 
     #endregion
