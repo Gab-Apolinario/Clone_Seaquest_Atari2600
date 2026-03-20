@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class BaseInimigo : MonoBehaviour
 {
@@ -47,7 +48,6 @@ public class BaseInimigo : MonoBehaviour
             //Matar o jogador
             Acoes.JogadorMorto?.Invoke(pontos);                 // TRANSMITIR - '?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);                                //destroi o inimigo quando colidir com o jogador
-            //Destroy(col.gameObject);                          //destroi o jogador
             Debug.LogWarning("COLIDIU COM PLAYER");
             //Somar pontuação na UI
         }
@@ -55,7 +55,6 @@ public class BaseInimigo : MonoBehaviour
         {
             Acoes.InimigoMorto?.Invoke(pontos);                 //'?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);
-            Destroy(col.gameObject);                            //destroi tiroJogador
             Debug.LogWarning("ATINGIDO PELO TIRO.");
             //Somar pontuação na UI
         }

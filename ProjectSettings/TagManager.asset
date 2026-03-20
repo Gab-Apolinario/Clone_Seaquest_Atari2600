@@ -9,6 +9,7 @@ TagManager:
   - Submarino
   - Humano
   - Superficie
+  - TiroSubmarino
   layers:
   - Default
   - TransparentFX

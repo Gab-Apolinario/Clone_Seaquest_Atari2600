@@ -96,11 +96,11 @@ public class Player : MonoBehaviour
     {
         podeAtirar = false; //inicia o delay do tiro
 
-        GameObject tiro = Instantiate(tiroPrefab, spawnPoint.position, Quaternion.identity);
+        GameObject tiroJogador = Instantiate(tiroPrefab, spawnPoint.position, Quaternion.identity);
         
         if (spriteJogador.flipX == false) //Se o jogador estiver virado para a esquerda
         {
-            tiro.GetComponent<TiroJogador>().AtirarEsquerda(); //Faz o tiro ir para a esquerda
+            tiroJogador.GetComponent<TiroJogador>().AtirarEsquerda(); //Faz o tiro ir para a esquerda
         }
 
         Debug.Log("Atirando!");
@@ -115,4 +115,14 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("TiroSubmarino"))
+        {
+            Acoes.JogadorMorto?.Invoke(0); // TRANSMITIR
+            Destroy(col.gameObject); //destroi o tiro do submarino
+            Debug.LogWarning("COLIDIU COM TIRO DO SUBMARINO");
+        }
+    }
 }

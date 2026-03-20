@@ -290,7 +290,7 @@ public class GameManager : MonoBehaviour
         if (estadoJogo == EstadoJogo.Superficie && oxigenioSubmarino < OXIGENIO_MAXIMO)
         {
             //Exemplo de preenchimento gradual
-            oxigenioSubmarino += 10f * Time.deltaTime; //Aumenta o oxigênio
+            oxigenioSubmarino += 25f * Time.deltaTime; //Aumenta o oxigênio
 
             if (oxigenioSubmarino >= OXIGENIO_MAXIMO)
             {
