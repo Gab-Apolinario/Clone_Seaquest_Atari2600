@@ -41,14 +41,9 @@ public class Submarino : BaseInimigo
         {
         GameObject tiroSubmarino = Instantiate(tiroSubmarinoPrefab, spawnPoint.position, Quaternion.identity);
         
-        Debug.Log(tiroSubmarino.transform.lossyScale);
-        tiroSubmarino.transform.localScale = Vector3.one;
-        Debug.Log(tiroSubmarino.GetComponent<TiroSubmarino>());
-
         if (spriteRenderer.flipX == false) //Se o jogador estiver virado para a esquerda
         {
             tiroSubmarino.GetComponent<TiroSubmarino>().AtirarEsquerda(); //Faz o tiro ir para a esquerda
-
         }
 
         Debug.Log("Submarino Atirou!");

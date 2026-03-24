@@ -55,6 +55,7 @@ public class BaseInimigo : MonoBehaviour
         {
             Acoes.InimigoMorto?.Invoke(pontos);                 //'?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);
+            Destroy(col.gameObject);                            //destroi o tiro do jogador
             Debug.LogWarning("ATINGIDO PELO TIRO.");
             //Somar pontuação na UI
         }

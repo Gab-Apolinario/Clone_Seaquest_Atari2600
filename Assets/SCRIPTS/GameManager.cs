@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class GameManager : MonoBehaviour
     public EstadoJogo estadoJogo;
     [SerializeField] private bool superficie;
     [SerializeField] private EstadoJogo estadoAnterior;
-    //public static event Action<EstadoJogo> OnEstadoJogoMudou; //Evento para notificar mudanças de estado do jogo
 
     [Header("Jogador")]
     [SerializeField] private Transform jogadorTransform;
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int humanosColetados;
     [SerializeField] private const int MAX_HUMANOS = 6;                         //REGRA
     [SerializeField] private bool jogadorPodeMover;
+    [SerializeField] private bool superficiePorMorte;
 
     [Header("Oxegênio")]
     [SerializeField] private float oxigenioSubmarino;
@@ -94,13 +95,16 @@ public class GameManager : MonoBehaviour
     void JogadorMorto(int pontos)
     {
         //reset loop do jogo
+        superficiePorMorte = true;
         MudarEstadoJogo(EstadoJogo.Superficie);
         pontosSubmarino = 20;
         pontosPeixe = 20;
+        oxigenioSubmarino = 0;
         
         if (rodadasComSucesso == 0)
         {
             pontuacaoTotal += pontos;
+            Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
         }
         else
         {
@@ -109,14 +113,17 @@ public class GameManager : MonoBehaviour
             if(pontuacaoSomar >= MAX_PONTOS_INIMIGOS)
             {
                 pontuacaoTotal += MAX_PONTOS_INIMIGOS;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
             }
             else
             {
                 pontuacaoTotal += pontuacaoSomar;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
             }
         }
 
         vidasJogador--;
+        Acoes.UIVidaJogador?.Invoke(vidasJogador); //Atualiza UI de vidas
         Debug.Log($"Jogador Morreu! Pontuação Total: {pontuacaoTotal} / Vidas: {vidasJogador}");
 
         if (vidasJogador <= 0)
@@ -132,6 +139,7 @@ public class GameManager : MonoBehaviour
         if (rodadasComSucesso == 0)
         {
             pontuacaoTotal += pontos;
+            Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
         }
         else
         {
@@ -140,10 +148,12 @@ public class GameManager : MonoBehaviour
             if(pontuacaoSomar >= MAX_PONTOS_INIMIGOS)
             {
                 pontuacaoTotal += MAX_PONTOS_INIMIGOS;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
             }
             else
             {
                 pontuacaoTotal += pontuacaoSomar;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
             }
         }
 
@@ -156,6 +166,7 @@ public class GameManager : MonoBehaviour
         if (humanosColetados < MAX_HUMANOS)
         {
             humanosColetados++;
+            Acoes.UIColetouHumano?.Invoke(humanosColetados); //Atualiza UI
             Debug.Log($"COLETADO! Humanos Coletados: {humanosColetados}");
 
             if (humanosColetados == MAX_HUMANOS)
@@ -177,10 +188,12 @@ public class GameManager : MonoBehaviour
     void IniciarJogo()
     {
         jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
+        Acoes.UIVidaJogador?.Invoke(vidasJogador);          //Atualiza UI de vidas
 
-        if (oxigenioSubmarino < OXIGENIO_MAXIMO)           //Oxigênio não está cheio
+        if (oxigenioSubmarino < OXIGENIO_MAXIMO)            //Oxigênio não está cheio
         {
             //Iniciar preenchemento do oxigênio
+            Acoes.UIOxigenio?.Invoke(oxigenioSubmarino);    //Atualiza UI do oxigênio
             jogadorPodeMover = false;                       //impede o jogador de se mover enquanto o oxigênio estiver sendo preenchido
             Acoes.MoverJogador?.Invoke(jogadorPodeMover);
         }
@@ -189,13 +202,6 @@ public class GameManager : MonoBehaviour
             jogadorPodeMover = true;                        //permite o jogador se mover normalmente
             Acoes.MoverJogador?.Invoke(jogadorPodeMover);
         }
-    }
-
-    void GameOver()
-    {
-        Debug.LogError("Game Over! O jogador perdeu todas as vidas.");
-        Time.timeScale = 0;
-        oxigenioSubmarino = 0;
     }
 
     void MudarEstadoJogo(EstadoJogo novoEstado)
@@ -212,11 +218,11 @@ public class GameManager : MonoBehaviour
                 {
                     Time.timeScale = 0;
                     //Panel cobrindo ou DestroyInimigos()
-                    //Aperte R para reiniciar
                 }
                 else
                 {
                     IniciarJogo();
+                    
                     Debug.Log("SUPERFÍCIE");
 
                     if (estadoAnterior == EstadoJogo.Submerso)
@@ -243,43 +249,55 @@ public class GameManager : MonoBehaviour
     void ResolverHumanos() //PONTUAÇÃO E DIFICULDADE
     {
         if (humanosColetados == MAX_HUMANOS) // REGRA: rodada de sucesso, dificuldade e pontos aumentam;
-                {
-                    for(int i = 0; i < humanosColetados; i++)
-                    {
-                        int pontuacaoSomar;
-                        pontuacaoSomar = pontosHumano * (rodadasComSucesso + 1); //HUMANO MULTIPLICA PORQUE VALOR DE INCREMENTO == PONTOS
-                        if(pontuacaoSomar >= MAX_PONTOS_HUMANOS)
-                        {
-                             pontuacaoTotal += MAX_PONTOS_HUMANOS;
-                        }
-                        else
-                        {
-                            pontuacaoTotal += pontuacaoSomar;
-                        }
-                        Debug.Log($"PONTUAÇÃO HUMANOS = {pontuacaoTotal}");
-                    }
+        {
+            StartCoroutine(RodadaComSucesso());
+        }
+        else if (humanosColetados == 0 && !superficiePorMorte) //REGRA: Se o jogador subir a superfície sem coletar nenhum humano, perde 1 vida
+        {
+            vidasJogador--;
+            Acoes.UIVidaJogador?.Invoke(vidasJogador); //Atualiza UI de vidas
+            Debug.Log($"O jogador subiu a superfície sem coletar humanos! Vidas restantes: {vidasJogador}");
+            if (vidasJogador <= 0)
+            {
+                MudarEstadoJogo(EstadoJogo.GameOver);
+            }
+        }
+        else // REGRA: perde um humano por cada vez que sobe a superfície sem estar cheio
+        {
+            if (humanosColetados > 0)
+            {
+                humanosColetados--;
+                Acoes.UIColetouHumano?.Invoke(humanosColetados); //Atualiza UI
+            }
+        }
+    }
 
-                    humanosColetados = 0; //reseta humanos coletados para a próxima rodada
-                    jogadorCheio = false;
-                    rodadasComSucesso++; //aumenta pontos e velocidade dos inimigos (DIFICULDADE)
-                }
-                else if (humanosColetados == 0) //REGRA: Se o jogador subir a superfície sem coletar nenhum humano, perde 1 vida
-                {
-                    vidasJogador--;
-                    Debug.Log($"O jogador subiu a superfície sem coletar humanos! Vidas restantes: {vidasJogador}");
-                    //UI Update aqui
+    IEnumerator RodadaComSucesso() //Superfície com 6 humanos coletados
+    {
 
-                    if (vidasJogador <= 0)
-                    {
-                        MudarEstadoJogo(EstadoJogo.GameOver);
-                    }
+        for (int i = 0; i < humanosColetados; i++)
+        {
+            int pontuacaoSomar;
+            pontuacaoSomar = pontosHumano * (rodadasComSucesso + 1); //HUMANO MULTIPLICA PORQUE VALOR DE INCREMENTO == PONTOS
+            if(pontuacaoSomar >= MAX_PONTOS_HUMANOS)
+            {
+                pontuacaoTotal += MAX_PONTOS_HUMANOS;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
+                Acoes.UIHumanos?.Invoke((humanosColetados - 1) - i);
+            }
+            else
+            {
+                pontuacaoTotal += pontuacaoSomar;
+                Acoes.UIResolverPontuacao?.Invoke(pontuacaoTotal); //Atualiza UI
+                Acoes.UIHumanos?.Invoke((humanosColetados - 1) - i);
+            }
+            Debug.Log($"PONTUAÇÃO HUMANOS = {pontuacaoSomar}");
+            yield return new WaitForSeconds(0.5f); // Pequeno delay para garantir que a pontuação seja atualizada antes de atualizar os ícones
+        }
 
-                }
-                else // REGRA: perde um humano por cada vez que sobe a superfície sem estar cheio
-                {
-                    humanosColetados--;
-                    //UI Upadate aqui
-                }
+        humanosColetados = 0; //reseta humanos coletados para a próxima rodada
+        jogadorCheio = false;
+        rodadasComSucesso++; //aumenta pontos e velocidade dos inimigos (DIFICULDADE)
     }
 
     void OxigenioSubmarino()
@@ -290,7 +308,8 @@ public class GameManager : MonoBehaviour
         if (estadoJogo == EstadoJogo.Superficie && oxigenioSubmarino < OXIGENIO_MAXIMO)
         {
             //Exemplo de preenchimento gradual
-            oxigenioSubmarino += 25f * Time.deltaTime; //Aumenta o oxigênio
+            oxigenioSubmarino += 35f * Time.deltaTime; //Aumenta o oxigênio
+            Acoes.UIOxigenio?.Invoke(oxigenioSubmarino); //Atualiza UI do oxigênio
 
             if (oxigenioSubmarino >= OXIGENIO_MAXIMO)
             {
@@ -303,6 +322,7 @@ public class GameManager : MonoBehaviour
         else if(estadoJogo == EstadoJogo.Submerso)
         {
             oxigenioSubmarino -= 3f * Time.deltaTime; //Diminui oxigênio
+            Acoes.UIOxigenio?.Invoke(oxigenioSubmarino); //Atualiza UI do oxigênio
 
             if (oxigenioSubmarino <= 0)
             {
@@ -318,9 +338,17 @@ public class GameManager : MonoBehaviour
         if (pontuacaoTotal >= pontuacaoVidaExtra)
         {
             vidasJogador++;
+            Acoes.UIVidaJogador?.Invoke(vidasJogador); //Atualiza UI de vidas
             pontuacaoVidaExtra += PONTOS_VIDA_EXTRA;
             Debug.LogWarning($"VIDA EXTRA. Vidas Atuais: {vidasJogador}");
         }
+    }
+    
+    void GameOver()
+    {
+        Debug.LogError("Game Over! O jogador perdeu todas as vidas.");
+        Time.timeScale = 0;
+        oxigenioSubmarino = 0;
     }
     public void OnReiniciar()
     {
