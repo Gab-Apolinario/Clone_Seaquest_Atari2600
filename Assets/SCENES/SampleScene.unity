@@ -1685,16 +1685,18 @@ MonoBehaviour:
   estadoAnterior: 0
   jogadorTransform: {fileID: 1560154202}
   vidasJogador: 3
-  humanosColetados: 0
+  humanosColetados: 5
   jogadorPodeMover: 0
   superficiePorMorte: 0
-  oxigenioSubmarino: 0
+  oxigenioSubmarino: 50
+  piscandoOxigenio: 0
   pontuacaoTotal: 0
   pontuacaoVidaExtra: 0
   pontosPeixe: 0
   pontosSubmarino: 0
   pontosHumano: 0
   rodadasComSucesso: 0
+  contabilizandoPontos: 0
 --- !u!4 &1388125870
 Transform:
   m_ObjectHideFlags: 0
@@ -2945,7 +2947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.14
       objectReference: {fileID: 0}
     - target: {fileID: 3646445804427448494, guid: 599489849c19f1248a3ca966f1a7c04b, type: 3}
       propertyPath: m_LocalPosition.z

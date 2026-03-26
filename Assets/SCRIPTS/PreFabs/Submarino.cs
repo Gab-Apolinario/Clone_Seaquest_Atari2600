@@ -33,7 +33,7 @@ public class Submarino : BaseInimigo
         int  chanceAtirar = Random.Range(0, 10);
         if(chanceAtirar <= 3) //30% de chance de atirar
         {
-            Debug.Log("Submarino não atira desta vez.");
+            //Debug.Log("Submarino não atira desta vez.");
             podeAtirar = true;
             yield break; //Sai da coroutine sem atirar
         }
@@ -46,7 +46,7 @@ public class Submarino : BaseInimigo
             tiroSubmarino.GetComponent<TiroSubmarino>().AtirarEsquerda(); //Faz o tiro ir para a esquerda
         }
 
-        Debug.Log("Submarino Atirou!");
+        //Debug.Log("Submarino Atirou!");
 
         yield return new WaitForSeconds(delayTiro); // Tempo de recarga entre os tiros
         

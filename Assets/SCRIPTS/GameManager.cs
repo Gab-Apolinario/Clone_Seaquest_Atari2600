@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [Header("Oxegênio")]
     [SerializeField] private float oxigenioSubmarino;
     [SerializeField] private const int OXIGENIO_MAXIMO = 100;
+    [SerializeField] private bool piscandoOxigenio;
 
     [Header("Gerenciamento de Pontuação")]
     [SerializeField] private int pontuacaoTotal;
@@ -43,12 +44,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private const int MAX_PONTOS_HUMANOS = 1000;               //REGRA
     [SerializeField] private const int MAX_PONTOS_INIMIGOS = 90;                //REGRA
     [SerializeField] private int rodadasComSucesso = 0;                         //cada vez que o jogador sobe a superfície E tem 6 humanos, os pontos aumentam
+    [SerializeField] private bool contabilizandoPontos;
     #endregion
 
     #region INICIAÇÕES
 
     void Awake()
     {
+        jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
         inputActions = new InputSystem_Actions();
     }
 
@@ -95,11 +98,20 @@ public class GameManager : MonoBehaviour
     void JogadorMorto(int pontos)
     {
         //reset loop do jogo
+        DestruirPrefabs(); //Limpa a tela
+        jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
+
         superficiePorMorte = true;
         MudarEstadoJogo(EstadoJogo.Superficie);
         pontosSubmarino = 20;
         pontosPeixe = 20;
         oxigenioSubmarino = 0;
+
+        if (humanosColetados < MAX_HUMANOS)
+        {
+            jogadorCheio = false;
+            Acoes.PiscarHumanos?.Invoke(jogadorCheio); //PARA DE PISCAR HUMANOS
+        }
         
         if (rodadasComSucesso == 0)
         {
@@ -172,6 +184,7 @@ public class GameManager : MonoBehaviour
             if (humanosColetados == MAX_HUMANOS)
             {
                 jogadorCheio = true;
+                Acoes.PiscarHumanos?.Invoke(jogadorCheio);
                 Debug.Log("JOGADOR CHEIO! HUMANO NÃO COLETADO.");
             }
         }
@@ -187,12 +200,10 @@ public class GameManager : MonoBehaviour
 
     void IniciarJogo()
     {
-        jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
         Acoes.UIVidaJogador?.Invoke(vidasJogador);          //Atualiza UI de vidas
 
         if (oxigenioSubmarino < OXIGENIO_MAXIMO)            //Oxigênio não está cheio
         {
-            //Iniciar preenchemento do oxigênio
             Acoes.UIOxigenio?.Invoke(oxigenioSubmarino);    //Atualiza UI do oxigênio
             jogadorPodeMover = false;                       //impede o jogador de se mover enquanto o oxigênio estiver sendo preenchido
             Acoes.MoverJogador?.Invoke(jogadorPodeMover);
@@ -213,28 +224,27 @@ public class GameManager : MonoBehaviour
         {
             //ESTADO_SUPERFICIE
             case EstadoJogo.Superficie:
-                
-                if (vidasJogador == 0)
-                {
-                    Time.timeScale = 0;
-                    //Panel cobrindo ou DestroyInimigos()
-                }
-                else
-                {
-                    IniciarJogo();
-                    
-                    Debug.Log("SUPERFÍCIE");
 
-                    if (estadoAnterior == EstadoJogo.Submerso)
-                    {
-                        ResolverHumanos();
-                    }
+                //PARAR DE PISCAR OXIGENIO
+                if (piscandoOxigenio) //Para de piscar assim que começa a encher
+                {
+                    piscandoOxigenio = false;
+                    Acoes.PiscarOxigenio?.Invoke(piscandoOxigenio);
+                }
+
+                IniciarJogo();
+                Debug.Log("SUPERFÍCIE");
+
+                if (estadoAnterior == EstadoJogo.Submerso)
+                {
+                    ResolverHumanos();
                 }
                 break;
             //ESTADO_SUBMERSO
             case EstadoJogo.Submerso:
 
                 Debug.Log("SUBMERSO");
+                superficiePorMorte = false;
                 estadoAnterior = EstadoJogo.Submerso;
 
                 break;
@@ -248,7 +258,7 @@ public class GameManager : MonoBehaviour
 
     void ResolverHumanos() //PONTUAÇÃO E DIFICULDADE
     {
-        if (humanosColetados == MAX_HUMANOS) // REGRA: rodada de sucesso, dificuldade e pontos aumentam;
+        if (humanosColetados == MAX_HUMANOS && !superficiePorMorte) // REGRA: rodada de sucesso, dificuldade e pontos aumentam;
         {
             StartCoroutine(RodadaComSucesso());
         }
@@ -274,6 +284,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RodadaComSucesso() //Superfície com 6 humanos coletados
     {
+        contabilizandoPontos = true;
+        Acoes.PiscarHumanos?.Invoke(false);
+
+        DestruirPrefabs(); //Limpa a tela
+
+        jogadorPodeMover = false;
+        Acoes.MoverJogador?.Invoke(jogadorPodeMover); //impede o jogador de se mover enquanto a pontuação é atualizada
 
         for (int i = 0; i < humanosColetados; i++)
         {
@@ -292,36 +309,39 @@ public class GameManager : MonoBehaviour
                 Acoes.UIHumanos?.Invoke((humanosColetados - 1) - i);
             }
             Debug.Log($"PONTUAÇÃO HUMANOS = {pontuacaoSomar}");
-            yield return new WaitForSeconds(0.5f); // Pequeno delay para garantir que a pontuação seja atualizada antes de atualizar os ícones
+            yield return new WaitForSeconds(0.5f); //Delay para garantir que a pontuação seja atualizada antes de atualizar os ícones
         }
 
         humanosColetados = 0; //reseta humanos coletados para a próxima rodada
         jogadorCheio = false;
+        //Acoes.PiscarHumanos?.Invoke(jogadorCheio);
         rodadasComSucesso++; //aumenta pontos e velocidade dos inimigos (DIFICULDADE)
+
+        contabilizandoPontos = false;
+        jogadorPodeMover = true;
+        Acoes.MoverJogador?.Invoke(jogadorPodeMover);
     }
 
-    void OxigenioSubmarino()
+    void OxigenioSubmarino()         //Lógica para preencher o oxigênio do submarino quando o jogador estiver na superfície
     {
-        //Lógica para preencher o oxigênio do submarino quando o jogador estiver na superfície
-        //Pode ser um aumento gradual do oxigênio ao longo do tempo ou um preenchimento instantâneo
-        //Quando o oxigênio atingir o máximo, permitir que o jogador se mova normalmente
         if (estadoJogo == EstadoJogo.Superficie && oxigenioSubmarino < OXIGENIO_MAXIMO)
         {
             //Exemplo de preenchimento gradual
-            oxigenioSubmarino += 35f * Time.deltaTime; //Aumenta o oxigênio
+            oxigenioSubmarino += 50f * Time.deltaTime; //Aumenta o oxigênio
             Acoes.UIOxigenio?.Invoke(oxigenioSubmarino); //Atualiza UI do oxigênio
 
-            if (oxigenioSubmarino >= OXIGENIO_MAXIMO)
-            {
-                oxigenioSubmarino = OXIGENIO_MAXIMO;
+            if (oxigenioSubmarino >= OXIGENIO_MAXIMO && !contabilizandoPontos)
+            {   
+                oxigenioSubmarino = OXIGENIO_MAXIMO; //Se passar, volta pro máximo
                 jogadorPodeMover = true; //Permite o jogador se mover normalmente
                 Acoes.MoverJogador?.Invoke(jogadorPodeMover); //'grita' que o jogador pode se mover
+
                 Debug.Log("Oxigênio cheio! O jogador pode se mover normalmente.");
             }
         }
         else if(estadoJogo == EstadoJogo.Submerso)
         {
-            oxigenioSubmarino -= 3f * Time.deltaTime; //Diminui oxigênio
+            oxigenioSubmarino -= 5f * Time.deltaTime; //Diminui oxigênio
             Acoes.UIOxigenio?.Invoke(oxigenioSubmarino); //Atualiza UI do oxigênio
 
             if (oxigenioSubmarino <= 0)
@@ -329,6 +349,11 @@ public class GameManager : MonoBehaviour
                 oxigenioSubmarino = 0;
                 JogadorMorto(0); //O jogador morre por falta de oxigênio, mas não perde pontos
                 Debug.Log("Falta de oxigênio! O jogador morreu.");
+            }
+            else if(oxigenioSubmarino <= 35 && !piscandoOxigenio) //PISCAR OXIGENIO
+            {
+                piscandoOxigenio = true;
+                Acoes.PiscarOxigenio?.Invoke(piscandoOxigenio);
             }
         }
     }
@@ -350,6 +375,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         oxigenioSubmarino = 0;
     }
+
+    void DestruirPrefabs()
+    {
+        BaseInimigo[] inimigos = GameObject.FindObjectsByType<BaseInimigo>(FindObjectsSortMode.None);
+        foreach (BaseInimigo inimigo in inimigos)
+        {
+            Destroy(inimigo.gameObject);
+        }
+    }
+
     public void OnReiniciar()
     {
         if (inputActions.Player.Reiniciar.WasPressedThisFrame())

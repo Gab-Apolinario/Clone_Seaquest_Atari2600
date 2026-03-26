@@ -1,10 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 using System.Collections;
-using UnityEngine.Rendering.VirtualTexturing;
-
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image[] vidasJogador;
     [SerializeField] private Image[] humanosColetados;
     [SerializeField] private Image barraOxigenio;
+    [SerializeField] private Coroutine piscarOxigenioCoroutine;
+    [SerializeField] private Coroutine piscarHumanosCoroutine;
 
     void OnEnable()
     {
@@ -21,6 +20,8 @@ public class UIManager : MonoBehaviour
         Acoes.UIColetouHumano += ColetouHumano;
         Acoes.UIOxigenio += Oxigenio;
         Acoes.UIVidaJogador += UIVidaJogador;
+        Acoes.PiscarOxigenio += PiscarOxigenio;
+        Acoes.PiscarHumanos += PiscarHumanos;
     }
 
     void OnDisable()
@@ -30,8 +31,9 @@ public class UIManager : MonoBehaviour
         Acoes.UIColetouHumano -= ColetouHumano;
         Acoes.UIOxigenio -= Oxigenio;
         Acoes.UIVidaJogador -= UIVidaJogador;
+        Acoes.PiscarOxigenio -= PiscarOxigenio;
+        Acoes.PiscarHumanos -= PiscarHumanos;
     }   
-
 
     //Atualiza pontuação na UI
     void ResolverPontuacao(int pontos)
@@ -80,6 +82,62 @@ public class UIManager : MonoBehaviour
 
     void Oxigenio(float oxigenioSubmarino)
     {
-        barraOxigenio.fillAmount = oxigenioSubmarino / 100f; // Supondo que o oxigênio seja representado como um valor entre 0 e 100
+        barraOxigenio.fillAmount = oxigenioSubmarino / 100f;
+    }
+
+    void PiscarOxigenio(bool piscarOxigenio)
+    {
+        if (piscarOxigenio)
+        {
+            piscarOxigenioCoroutine = StartCoroutine(PiscarOxigenioCoroutine());
+        }
+        else
+        {
+            barraOxigenio.gameObject.SetActive(true);
+            StopCoroutine(piscarOxigenioCoroutine);
+        }
+    }
+
+    IEnumerator PiscarOxigenioCoroutine()
+    {
+        while (true)
+        {
+            barraOxigenio.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.4f);
+            barraOxigenio.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
+
+    void PiscarHumanos(bool piscarHumanos)
+    {
+        if (piscarHumanos)
+        {
+            piscarHumanosCoroutine = StartCoroutine(PiscarHumanosCoroutine());
+        }
+        else
+        {
+            StopCoroutine(piscarHumanosCoroutine);
+        }
+    }
+
+    IEnumerator PiscarHumanosCoroutine()
+    {
+        while (true)
+        {
+            for (int i = 0; i < humanosColetados.Length; i++)
+            {
+                humanosColetados[i].gameObject.SetActive(false);
+            }
+
+            yield return new WaitForSeconds(0.4f);
+
+            for (int i = 0; i < humanosColetados.Length; i++)
+            {
+                humanosColetados[i].gameObject.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(0.4f);
+        }
     }
 }

@@ -13,4 +13,7 @@ public static class Acoes
     public static Action<float> UIOxigenio;
 
     public static Action<int> UIVidaJogador;
+
+    public static Action<bool> PiscarOxigenio;
+    public static Action<bool> PiscarHumanos;
 }
