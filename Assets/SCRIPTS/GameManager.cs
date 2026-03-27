@@ -2,6 +2,7 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Callbacks;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
+        jogadorTransform.position = new Vector2(0, 3.2f);      //Posição inicial do jogador na superfície
         inputActions = new InputSystem_Actions();
     }
 
@@ -79,7 +80,6 @@ public class GameManager : MonoBehaviour
         Acoes.ColetouHumano -= ColetouHumano;
     }
     #endregion
-
     void Update()
     {
         OnReiniciar();
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         {
             MudarEstadoJogo(EstadoJogo.Submerso);
         }
-        else if (jogadorTransform.position.y >= 2.8f && estadoJogo == EstadoJogo.Submerso)
+        else if (jogadorTransform.position.y >= 3f && estadoJogo == EstadoJogo.Submerso)
         {
             MudarEstadoJogo(EstadoJogo.Superficie);
         }
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         //reset loop do jogo
         Acoes.AtivarSpawn?.Invoke(false);
         DestruirPrefabs(); //Limpa a tela
-        jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
+        jogadorTransform.position = new Vector2(0, 3.2f);      //Posição inicial do jogador na superfície
 
         superficiePorMorte = true;
         MudarEstadoJogo(EstadoJogo.Superficie);
@@ -209,12 +209,12 @@ public class GameManager : MonoBehaviour
         {
             Acoes.UIOxigenio?.Invoke(oxigenioSubmarino);    //Atualiza UI do oxigênio
             jogadorPodeMover = false;                       //impede o jogador de se mover enquanto o oxigênio estiver sendo preenchido
-            Acoes.MoverJogador?.Invoke(jogadorPodeMover);
+            Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position);
         }
         else
         {
             jogadorPodeMover = true;                        //permite o jogador se mover normalmente
-            Acoes.MoverJogador?.Invoke(jogadorPodeMover);
+            Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position);
         }
     }
 
@@ -228,6 +228,8 @@ public class GameManager : MonoBehaviour
             //ESTADO_SUPERFICIE
             case EstadoJogo.Superficie:
 
+                Acoes.Superficie?.Invoke(true);
+                
                 //PARAR DE PISCAR OXIGENIO
                 if (piscandoOxigenio) //Para de piscar assim que começa a encher
                 {
@@ -236,7 +238,6 @@ public class GameManager : MonoBehaviour
                 }
 
                 IniciarJogo();
-                Debug.Log("SUPERFÍCIE");
 
                 if (estadoAnterior == EstadoJogo.Submerso)
                 {
@@ -246,7 +247,8 @@ public class GameManager : MonoBehaviour
             //ESTADO_SUBMERSO
             case EstadoJogo.Submerso:
 
-                Debug.Log("SUBMERSO");
+                Acoes.Superficie?.Invoke(false);
+
                 superficiePorMorte = false;
                 estadoAnterior = EstadoJogo.Submerso;
 
@@ -295,7 +297,7 @@ public class GameManager : MonoBehaviour
         DestruirPrefabs(); //Limpa a tela
 
         jogadorPodeMover = false;
-        Acoes.MoverJogador?.Invoke(jogadorPodeMover); //impede o jogador de se mover enquanto a pontuação é atualizada
+        Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position); //impede o jogador de se mover enquanto a pontuação é atualizada
 
         for (int i = 0; i < humanosColetados; i++)
         {
@@ -325,7 +327,7 @@ public class GameManager : MonoBehaviour
 
         contabilizandoPontos = false;
         jogadorPodeMover = true;
-        Acoes.MoverJogador?.Invoke(jogadorPodeMover);
+        Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position);
         Acoes.AtivarSpawn?.Invoke(true);
     }
 
@@ -341,7 +343,7 @@ public class GameManager : MonoBehaviour
             {   
                 oxigenioSubmarino = OXIGENIO_MAXIMO; //Se passar, volta pro máximo
                 jogadorPodeMover = true; //Permite o jogador se mover normalmente
-                Acoes.MoverJogador?.Invoke(jogadorPodeMover); //'grita' que o jogador pode se mover
+                Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position); //'grita' que o jogador pode se mover
                 Acoes.AtivarSpawn?.Invoke(true);
 
                 Debug.Log("Oxigênio cheio! O jogador pode se mover normalmente.");

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms;
 
 public class Player : MonoBehaviour
 {
@@ -19,11 +20,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float limiteTelaCima;
     [SerializeField] private float limiteTelaBaixo;
     [SerializeField] private bool podeMover = true;
+    [SerializeField] private Vector2 localTravado;
 
       [Header("Atirar")]
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private GameObject tiroPrefab;
     [SerializeField] private float delayTiro;
+    [SerializeField] private bool superficie;
     private bool podeAtirar = true;
 
     void Awake()
@@ -35,23 +38,30 @@ public class Player : MonoBehaviour
     {
         inputActions.Enable();
         Acoes.MoverJogador += PodeMover;
+        Acoes.Superficie += Superficie;
     }
 
     void OnDisable()
     {
         inputActions.Disable();
         Acoes.MoverJogador -= PodeMover;
+        Acoes.Superficie -= Superficie;
     }
 
     private void Update()
     {
-        OnAtirar();
-        // Verificar a direção do movimento para flipar o sprite
-
+        if (!superficie)
+        {
+            OnAtirar();
+        }
     }
     private void FixedUpdate()
     {
-        if (podeMover)
+        if (!podeMover)
+        {
+            rb.MovePosition(localTravado);
+        }
+        else
         {
             OnMover();
         }
@@ -60,6 +70,8 @@ public class Player : MonoBehaviour
     #region CONTROLE_JOGADOR
     public void OnMover()
     {
+
+        Debug.Log("MOVENDO");
         //Lê o valor do input(Vector2)
         Vector2 direction = inputActions.Player.Mover.ReadValue<Vector2>();
 
@@ -109,9 +121,17 @@ public class Player : MonoBehaviour
         podeAtirar = true;
     }
 
-    void PodeMover(bool valor)
+    void PodeMover(bool valor, Vector2 travado)
     {
         podeMover = valor;
+        if (!podeMover)
+        {
+            localTravado = travado;
+        }
+    }
+        void Superficie(bool valor)
+    {
+        superficie = valor;
     }
 
     #endregion

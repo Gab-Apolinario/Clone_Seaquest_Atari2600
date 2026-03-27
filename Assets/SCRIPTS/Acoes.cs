@@ -5,7 +5,8 @@ public static class Acoes
     public static Action<int> JogadorMorto;
     public static Action<int> InimigoMorto;
     public static Action<int> ColetouHumano;
-    public static Action<bool> MoverJogador;
+    public static Action<bool, Vector2> MoverJogador;
+    public static Action<bool> Superficie;
 
     //UI
     public static Action<int> UIResolverPontuacao;
@@ -20,4 +21,5 @@ public static class Acoes
 
     //SPAWN INIMIGOS
     public static Action<bool> AtivarSpawn;
+    public static Action<bool> SpawnarSubPatrulheiro;
 }
