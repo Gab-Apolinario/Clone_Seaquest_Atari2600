@@ -151,9 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f8af25bdea3244d8edc30f0656b412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Submarino
-  velocidade: 2
+  velocidade: 1.5
+  multiplicadorVelocidade: 0
   pontos: 20
-  tempoVida: 8
+  tempoVida: 12
   irDireita: 0
   spriteRenderer: {fileID: 7816849911931386720}
   spawnPoint: {fileID: 3935495547952484785}

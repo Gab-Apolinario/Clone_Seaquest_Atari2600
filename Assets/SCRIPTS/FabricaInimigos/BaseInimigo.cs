@@ -5,6 +5,7 @@ public class BaseInimigo : MonoBehaviour
 {
     [Header("Variáveis Comuns para Herdar")]
     [SerializeField] protected float velocidade;
+    [SerializeField] protected float multiplicadorVelocidade;
     [SerializeField] protected int pontos;
     [SerializeField] private int tempoVida;
     [SerializeField] protected bool irDireita;
@@ -14,6 +15,8 @@ public class BaseInimigo : MonoBehaviour
     {
         Destroy(gameObject, tempoVida);
         Seguranças();
+        multiplicadorVelocidade = GameManager.multiplicadorDificuldade; //REGRA: a cada rodada de sucesso, os inimigos ficam mais rápidos
+        velocidade *= multiplicadorVelocidade;
     }
 
     protected virtual void Update()

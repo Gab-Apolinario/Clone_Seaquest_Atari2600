@@ -460,8 +460,10 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 474326433}
-  canSpawn: 1
-  spawnTick: 9
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 50
+  spawnTick: 7
   probabilidadePeixe: 4
   probabilidadeSubmarino: 3
   probabilidadeHumano: 3
@@ -653,8 +655,10 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 593260333}
-  canSpawn: 1
-  spawnTick: 8
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 40
+  spawnTick: 5
   probabilidadePeixe: 5
   probabilidadeSubmarino: 3
   probabilidadeHumano: 2
@@ -973,8 +977,10 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 883257284}
-  canSpawn: 1
-  spawnTick: 7
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 70
+  spawnTick: 3
   probabilidadePeixe: 3
   probabilidadeSubmarino: 3
   probabilidadeHumano: 4
@@ -1317,7 +1323,9 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 1089134724}
-  canSpawn: 1
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 90
   spawnTick: 10
   probabilidadePeixe: 4
   probabilidadeSubmarino: 2
@@ -1465,8 +1473,10 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 1305178499}
-  canSpawn: 1
-  spawnTick: 7
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 30
+  spawnTick: 3
   probabilidadePeixe: 4
   probabilidadeSubmarino: 2
   probabilidadeHumano: 4
@@ -1685,7 +1695,7 @@ MonoBehaviour:
   estadoAnterior: 0
   jogadorTransform: {fileID: 1560154202}
   vidasJogador: 3
-  humanosColetados: 5
+  humanosColetados: 0
   jogadorPodeMover: 0
   superficiePorMorte: 0
   oxigenioSubmarino: 50
@@ -2118,8 +2128,10 @@ MonoBehaviour:
   submarinoPreFab: {fileID: 706064029219235772, guid: b5fc6292e59e8b94d8e29d2ebcdae8e4, type: 3}
   humanoPreFab: {fileID: 3195056568175997771, guid: 525c98d5983994140baf2bebdc6ab8f6, type: 3}
   spawnPoint: {fileID: 1693536287}
-  canSpawn: 1
-  spawnTick: 6
+  esperandoSpawn: 0
+  spawnAtivo: 0
+  probabilidadeSpawn: 80
+  spawnTick: 5
   probabilidadePeixe: 3
   probabilidadeSubmarino: 2
   probabilidadeHumano: 5

@@ -169,6 +169,11 @@ MonoBehaviour:
   rb: {fileID: 1464178662451564481}
   velocidadeJogador: 5
   spriteJogador: {fileID: 4066033075231888684}
+  limiteTelaEsquerda: 0
+  limiteTelaDireita: 0
+  limiteTelaCima: 0
+  limiteTelaBaixo: 0
+  podeMover: 1
   spawnPoint: {fileID: 3646445804427448494}
   tiroPrefab: {fileID: 2508025166621191193, guid: 89168319f30ffa94ea5ac9d98eb9bb52, type: 3}
   delayTiro: 0.3

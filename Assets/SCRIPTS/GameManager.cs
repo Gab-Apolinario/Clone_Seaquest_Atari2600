@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private const int MAX_PONTOS_INIMIGOS = 90;                //REGRA
     [SerializeField] private int rodadasComSucesso = 0;                         //cada vez que o jogador sobe a superfície E tem 6 humanos, os pontos aumentam
     [SerializeField] private bool contabilizandoPontos;
+    public static float multiplicadorDificuldade = 1; //REGRA: a cada rodada de sucesso, os inimigos ficam mais rápidos
+
     #endregion
 
     #region INICIAÇÕES
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
     void JogadorMorto(int pontos)
     {
         //reset loop do jogo
+        Acoes.AtivarSpawn?.Invoke(false);
         DestruirPrefabs(); //Limpa a tela
         jogadorTransform.position = new Vector2(0, 3);      //Posição inicial do jogador na superfície
 
@@ -284,6 +287,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RodadaComSucesso() //Superfície com 6 humanos coletados
     {
+        Acoes.AtivarSpawn?.Invoke(false);
+        
         contabilizandoPontos = true;
         Acoes.PiscarHumanos?.Invoke(false);
 
@@ -316,10 +321,12 @@ public class GameManager : MonoBehaviour
         jogadorCheio = false;
         //Acoes.PiscarHumanos?.Invoke(jogadorCheio);
         rodadasComSucesso++; //aumenta pontos e velocidade dos inimigos (DIFICULDADE)
+        multiplicadorDificuldade += 0.3f;
 
         contabilizandoPontos = false;
         jogadorPodeMover = true;
         Acoes.MoverJogador?.Invoke(jogadorPodeMover);
+        Acoes.AtivarSpawn?.Invoke(true);
     }
 
     void OxigenioSubmarino()         //Lógica para preencher o oxigênio do submarino quando o jogador estiver na superfície
@@ -335,6 +342,7 @@ public class GameManager : MonoBehaviour
                 oxigenioSubmarino = OXIGENIO_MAXIMO; //Se passar, volta pro máximo
                 jogadorPodeMover = true; //Permite o jogador se mover normalmente
                 Acoes.MoverJogador?.Invoke(jogadorPodeMover); //'grita' que o jogador pode se mover
+                Acoes.AtivarSpawn?.Invoke(true);
 
                 Debug.Log("Oxigênio cheio! O jogador pode se mover normalmente.");
             }

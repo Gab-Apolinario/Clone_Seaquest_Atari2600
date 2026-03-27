@@ -151,8 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7085d0b04feca9418b7bdd8251343e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Humano
-  velocidade: 2.5
+  velocidade: 1.5
+  multiplicadorVelocidade: 0
   pontos: 50
-  tempoVida: 6
+  tempoVida: 10
   irDireita: 0
   spriteRenderer: {fileID: 6496248563378904386}

@@ -151,8 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441cca3e526117c44ac9d7c776027c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Peixe
-  velocidade: 3
+  velocidade: 2
+  multiplicadorVelocidade: 0
   pontos: 20
-  tempoVida: 6
+  tempoVida: 9
   irDireita: 0
   spriteRenderer: {fileID: 4132616675813092412}
