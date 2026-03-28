@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
         {
             if (podeAtirar)
             {
+                Acoes.TiroJogador?.Invoke();
                 StartCoroutine(Atirar());
             }
         }

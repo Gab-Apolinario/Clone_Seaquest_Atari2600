@@ -118,6 +118,10 @@ public class UIManager : MonoBehaviour
         else
         {
             StopCoroutine(piscarHumanosCoroutine);
+            for (int i = 0; i < humanosColetados.Length - 1; i++)
+            {
+                humanosColetados[i].gameObject.SetActive(true);
+            }
         }
     }
 

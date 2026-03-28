@@ -7,6 +7,7 @@ public class Humano : BaseInimigo
     {
         base.Start(); // Chama o Start da classe base (BaseInimigo)
         pontos = 50;
+        velocidade = 1f;
     }
 
     protected override void OnTriggerEnter2D(Collider2D col)

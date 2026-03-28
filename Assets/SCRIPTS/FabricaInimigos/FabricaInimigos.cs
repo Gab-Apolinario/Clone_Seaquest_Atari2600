@@ -55,8 +55,8 @@ public class FabricaInimigos : MonoBehaviour
     {
         esperandoSpawn = false;
         Spawn();
-        //yield return new WaitForSeconds(Mathf.Max(spawnTick/GameManager.multiplicadorDificuldade, 0.2f));
-        yield return new WaitForSeconds(spawnTick);
+        yield return new WaitForSeconds(Mathf.Max(spawnTick/GameManager.multiplicadorDificuldade, 0.2f));
+        Debug.LogError(spawnTick);
         esperandoSpawn = true;
     }
     
@@ -68,7 +68,7 @@ public class FabricaInimigos : MonoBehaviour
         {
             //lógica para sortear o inimigo com base nas probabilidades
             int resultadoSorteioPreFab = Random.Range(0, probabilidadeTotal);
-            bool canSpawnSubmarino = GameManager.multiplicadorDificuldade >= 1.5f; //REGRA: submarinos começam a aparecer a partir da segunda rodada com sucesso
+            bool canSpawnSubmarino = GameManager.multiplicadorDificuldade >= 1.1f; //REGRA: submarinos começam a aparecer a partir da primeira rodada com sucesso
 
             if(resultadoSorteioPreFab < probabilidadePeixe)
             {

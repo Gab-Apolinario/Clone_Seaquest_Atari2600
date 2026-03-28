@@ -23,7 +23,7 @@ public class SpawnerSubPatrulheiro : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.multiplicadorDificuldade >= 1.6f && !primeiroSpawn)
+        if(GameManager.multiplicadorDificuldade >= 1.2f && !primeiroSpawn)
         {
             Spawn();
             primeiroSpawn = true;

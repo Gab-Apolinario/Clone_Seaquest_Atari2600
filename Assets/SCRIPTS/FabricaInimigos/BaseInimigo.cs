@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class BaseInimigo : MonoBehaviour
 {
@@ -10,10 +9,12 @@ public class BaseInimigo : MonoBehaviour
     [SerializeField] private int tempoVida;
     [SerializeField] protected bool irDireita;
     [SerializeField] protected SpriteRenderer spriteRenderer;
+    private Vector2 foraEsquerda = new Vector2(-8, 0);
+    private Vector2 foraDireita = new Vector2(8, 0);
 
     protected virtual void Start()
     {
-        Destroy(gameObject, tempoVida);
+        //Destroy(gameObject, tempoVida);
         Seguranças();
         multiplicadorVelocidade = GameManager.multiplicadorDificuldade; //REGRA: a cada rodada de sucesso, os inimigos ficam mais rápidos
         velocidade *= multiplicadorVelocidade;
@@ -30,10 +31,20 @@ public class BaseInimigo : MonoBehaviour
         if (irDireita)
         {
             transform.Translate(Vector2.right * velocidade * Time.deltaTime);
+
+            if (transform.position.x >= foraDireita.x)
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
             transform.Translate(Vector2.left * velocidade * Time.deltaTime);
+            
+            if (transform.position.x <= foraEsquerda.x)
+            {
+                Destroy(gameObject);
+            }
         }
     }
         public void IrDireita()
@@ -52,7 +63,6 @@ public class BaseInimigo : MonoBehaviour
             Acoes.JogadorMorto?.Invoke(pontos);                 // TRANSMITIR - '?.Invoke()' = if (ouvinte != null) { Acao.Invoke(); }
             Destroy(gameObject);                                //destroi o inimigo quando colidir com o jogador
             Debug.LogWarning("COLIDIU COM PLAYER");
-            //Somar pontuação na UI
         }
         else if (col.gameObject.CompareTag("TiroJogador"))
         {
@@ -60,7 +70,15 @@ public class BaseInimigo : MonoBehaviour
             Destroy(gameObject);
             Destroy(col.gameObject);                            //destroi o tiro do jogador
             Debug.LogWarning("ATINGIDO PELO TIRO.");
-            //Somar pontuação na UI
+            
+            if (gameObject.CompareTag("Submarino"))
+            {
+                Acoes.SubmarinoMorto?.Invoke();
+            }
+            else if (gameObject.CompareTag("Peixe"))
+            {
+                Acoes.PeixeMorto?.Invoke();
+            }
         }
     }
 

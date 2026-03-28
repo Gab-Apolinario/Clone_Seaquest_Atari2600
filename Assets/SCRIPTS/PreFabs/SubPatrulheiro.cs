@@ -53,7 +53,6 @@ public class SubPatrulheiro : MonoBehaviour
         {
             Acoes.JogadorMorto?.Invoke(0);
             Destroy(gameObject);
-            Destroy(col.gameObject);
             Acoes.SpawnarSubPatrulheiro?.Invoke(true); //Informa o spawner para spawnar outro subpatrulheiro
         }
     }

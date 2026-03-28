@@ -22,4 +22,11 @@ public static class Acoes
     //SPAWN INIMIGOS
     public static Action<bool> AtivarSpawn;
     public static Action<bool> SpawnarSubPatrulheiro;
+
+    //SFX
+    public static Action OxigenioEnchendo;
+    public static Action OxigenioDescendo;
+    public static Action PeixeMorto;
+    public static Action SubmarinoMorto;
+    public static Action TiroJogador;
 }
