@@ -79,7 +79,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1569215530925006300, guid: 43c091d501f77a3469052bd1d510d913, type: 3}
   m_Color: {r: 0.9607843, g: 0.78039217, b: 0.25490198, a: 1}
@@ -121,8 +121,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.8, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.78, y: 0.624, z: 0.78}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8744363604128742362}
   m_Father: {fileID: 0}
@@ -137,7 +137,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 4660284990565689447}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -167,16 +167,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   rb: {fileID: 1464178662451564481}
-  velocidadeJogador: 5
+  velocidadeJogador: 4.5
   spriteJogador: {fileID: 4066033075231888684}
-  limiteTelaEsquerda: 0
-  limiteTelaDireita: 0
-  limiteTelaCima: 0
-  limiteTelaBaixo: 0
+  limiteTelaEsquerda: -5
+  limiteTelaDireita: 5
+  limiteTelaCima: 3.2
+  limiteTelaBaixo: -2
   podeMover: 1
+  localTravado: {x: 0, y: 0}
   spawnPoint: {fileID: 3646445804427448494}
   tiroPrefab: {fileID: 2508025166621191193, guid: 89168319f30ffa94ea5ac9d98eb9bb52, type: 3}
   delayTiro: 0.3
+  superficie: 0
 --- !u!114 &5482084353735575336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -285,7 +287,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

@@ -6,7 +6,6 @@ public class BaseInimigo : MonoBehaviour
     [SerializeField] protected float velocidade;
     [SerializeField] protected float multiplicadorVelocidade;
     [SerializeField] protected int pontos;
-    [SerializeField] private int tempoVida;
     [SerializeField] protected bool irDireita;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     private Vector2 foraEsquerda = new Vector2(-8, 0);
@@ -14,7 +13,6 @@ public class BaseInimigo : MonoBehaviour
 
     protected virtual void Start()
     {
-        //Destroy(gameObject, tempoVida);
         Seguranças();
         multiplicadorVelocidade = GameManager.multiplicadorDificuldade; //REGRA: a cada rodada de sucesso, os inimigos ficam mais rápidos
         velocidade *= multiplicadorVelocidade;

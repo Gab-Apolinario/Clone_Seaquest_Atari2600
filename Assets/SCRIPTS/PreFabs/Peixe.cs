@@ -33,7 +33,7 @@ public class Peixe : BaseInimigo
                 2 => TipoPeixe.Dificuldade3,
             };
         }
-        else if (GameManager.multiplicadorDificuldade >= 1.1f) //primeira rodada com sucesso
+        else if (GameManager.multiplicadorDificuldade >= 1.2f) //primeira rodada com sucesso
         {
             tipo = Random.Range(0, 3) switch
             {
@@ -49,15 +49,15 @@ public class Peixe : BaseInimigo
         switch (tipo)
         {
             case TipoPeixe.Dificuldade1:
-                velocidade = 2f;
+                velocidade = 1.3f;
                 spriteRenderer.color = Color.yellow;
                 break;
             case TipoPeixe.Dificuldade2:
-                velocidade = 2.2f;
+                velocidade = 1.5f;
                 spriteRenderer.color = Color.green;
                 break;
             case TipoPeixe.Dificuldade3:
-                velocidade = 2.5f;
+                velocidade = 1.7f;
                 spriteRenderer.color = Color.red;
                 break;
         }

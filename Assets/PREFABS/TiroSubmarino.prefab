@@ -303,6 +303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f523daa4e0ecd48bb2860010c059c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TiroSubmarino
-  velocidadeTiro: 7
-  tempoVidaTiro: 3
+  velocidadeTiro: 6
+  tempoVidaTiro: 4
   irParaEsquerda: 0

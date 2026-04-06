@@ -351,8 +351,7 @@ public class GameManager : MonoBehaviour
         multiplicadorDificuldade += 0.1f;
 
         contabilizandoPontos = false;
-        jogadorPodeMover = true;
-        Acoes.MoverJogador?.Invoke(jogadorPodeMover, jogadorTransform.position);
+
         Acoes.AtivarSpawn?.Invoke(true);
     }
 
@@ -386,7 +385,7 @@ public class GameManager : MonoBehaviour
         }
         else if(estadoJogo == EstadoJogo.Submerso)
         {
-            oxigenioSubmarino -= 5f * Time.deltaTime; //Diminui oxigênio
+            oxigenioSubmarino -= 3.5f * Time.deltaTime; //Diminui oxigênio
             Acoes.UIOxigenio?.Invoke(oxigenioSubmarino); //Atualiza UI do oxigênio
 
             if (oxigenioSubmarino <= 0)

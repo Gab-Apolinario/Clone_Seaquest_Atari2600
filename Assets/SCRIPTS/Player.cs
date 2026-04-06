@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms;
 
 public class Player : MonoBehaviour
 {
@@ -130,6 +128,7 @@ public class Player : MonoBehaviour
             localTravado = travado;
         }
     }
+    
         void Superficie(bool valor)
     {
         superficie = valor;
