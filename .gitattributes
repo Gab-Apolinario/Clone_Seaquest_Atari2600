@@ -1,0 +1,11 @@
+# Marca arquivos de shader como "vendored" para o GitHub Linguist não
+# contá-los na estatística de linguagem principal do repositório.
+# Isso evita que ShaderLab apareça como linguagem dominante em vez de C#.
+
+*.shader linguist-vendored
+*.shadergraph linguist-vendored
+*.shadersubgraph linguist-vendored
+*.cginc linguist-vendored
+*.hlsl linguist-vendored
+*.compute linguist-vendored
+*.raytrace linguist-vendored
